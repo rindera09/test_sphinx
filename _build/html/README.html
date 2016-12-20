@@ -1,0 +1,217 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Fox Render Farm / Renderbus cloud rendering Python API &#8212; Python API  documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Welcome to Python API’s documentation!" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to Python API’s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Python API  documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="fox-render-farm-renderbus-cloud-rendering-python-api">
+<span id="fox-render-farm-renderbus-cloud-rendering-python-api"></span><h1>Fox Render Farm / Renderbus cloud rendering Python API<a class="headerlink" href="#fox-render-farm-renderbus-cloud-rendering-python-api" title="Permalink to this headline">¶</a></h1>
+<p>We provide a simple Python-based API for using our cloud rendering service. This is the official API that is maintained by Fox Render Farm / Renderbus RD team. The API has been tested ok with python2.7.10 and requests 2.11.1</p>
+<p>The latest version can always be found at
+https://github.com/renderbus/python-api</p>
+<div class="section" id="requirement">
+<span id="requirement"></span><h2>Requirement<a class="headerlink" href="#requirement" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>requests (We already test ok with requests 2.11.1)</li>
+</ul>
+</div>
+<div class="section" id="submiting-step">
+<span id="submiting-step"></span><h2>Submiting Step<a class="headerlink" href="#submiting-step" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>You must have a Fox Render Farm / Renderbus account to use our service, then create a project and select the plugins you want to use on our web site before submiting.</li>
+<li>Login in our cloud server account first, some information such as access key, you need ask for our support team.</li>
+</ul>
+<div class="highlight-py"><div class="highlight"><pre><span></span><span class="n">fox</span> <span class="o">=</span> <span class="n">Fox</span><span class="p">(</span><span class="n">render_server</span><span class="o">=</span><span class="s2">&quot;www5.renderbus.com&quot;</span><span class="p">,</span> <span class="n">account</span><span class="o">=</span><span class="s2">&quot;XXX&quot;</span><span class="p">,</span> <span class="n">access_key</span><span class="o">=</span><span class="s2">&quot;XXX&quot;</span><span class="p">,</span> <span class="n">aspera_server</span><span class="o">=</span><span class="s2">&quot;app5.renderbus.com&quot;</span><span class="p">,</span> <span class="n">aspera_password</span><span class="o">=</span><span class="s2">&quot;XXX&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>Upload local files or folders to cloud server and skip the existing same file by default.</li>
+</ul>
+<div class="highlight-py"><div class="highlight"><pre><span></span><span class="n">fox</span><span class="o">.</span><span class="n">upload</span><span class="p">(</span><span class="n">path_list</span><span class="o">=</span><span class="p">[</span><span class="s2">r&quot;v:\project\shot\lgt.ma&quot;</span><span class="p">,</span> <span class="s2">r&quot;v:\project\asset\sourceimages&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>After all the dependancy files of Maya Task such as texture, cache etc have been uploaded, you can submit task to cloud server.</li>
+</ul>
+<div class="highlight-py"><div class="highlight"><pre><span></span><span class="n">fox</span><span class="o">.</span><span class="n">submit_task</span><span class="p">(</span><span class="n">project_name</span><span class="o">=</span><span class="s2">&quot;XXX&quot;</span><span class="p">,</span> <span class="n">input_scene_path</span><span class="o">=</span><span class="s2">r&quot;v:\project\shot\lgt.ma&quot;</span><span class="p">,</span> <span class="n">frames</span><span class="o">=</span><span class="s2">&quot;1-10[1]&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>You can also try below mnethod to add some extra info to submit the task.</li>
+</ul>
+<div class="highlight-py"><div class="highlight"><pre><span></span><span class="n">task_info</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;project_name&quot;</span><span class="p">:</span> <span class="s2">&quot;api&quot;</span><span class="p">,</span>
+               <span class="s2">&quot;input_scene_path&quot;</span><span class="p">:</span> <span class="s2">r&quot;E:\test_files\2014_api_camera_layer.mb&quot;</span><span class="p">,</span>
+               <span class="s2">&quot;frames&quot;</span><span class="p">:</span> <span class="s2">&quot;1073-1073[1]&quot;</span><span class="p">,</span>
+               <span class="s2">&quot;render_layer&quot;</span><span class="p">:</span> <span class="s2">&quot;ball&quot;</span><span class="p">,</span>
+               <span class="s2">&quot;camera&quot;</span><span class="p">:</span> <span class="s2">&quot;camera1&quot;</span><span class="p">}</span>
+<span class="n">fox</span><span class="o">.</span><span class="n">submit_task</span><span class="p">(</span><span class="o">**</span><span class="n">task_info</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>After rendering complete, you can download the entire task output files from cloud server, but single frame download function is not supported yet. The download method will skip the existing same files which already downloaded by default.</li>
+</ul>
+<div class="highlight-py"><div class="highlight"><pre><span></span><span class="n">fox</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">task_id</span><span class="o">=</span><span class="mi">11111</span><span class="p">,</span> <span class="n">local_path</span><span class="o">=</span><span class="s2">r&quot;v:\project\output&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="query-method">
+<span id="query-method"></span><h2>Query Method<a class="headerlink" href="#query-method" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>get user info</li>
+</ul>
+<div class="highlight-py"><div class="highlight"><pre><span></span><span class="n">fox</span><span class="o">.</span><span class="n">get_users</span><span class="p">()</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>get all projects</li>
+</ul>
+<div class="highlight-py"><div class="highlight"><pre><span></span><span class="n">fox</span><span class="o">.</span><span class="n">get_projects</span><span class="p">()</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>get specific project info</li>
+</ul>
+<div class="highlight-py"><div class="highlight"><pre><span></span><span class="n">fox</span><span class="o">.</span><span class="n">get_projects</span><span class="p">(</span><span class="n">project_name</span><span class="o">=</span><span class="s2">&quot;XXX&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>get all tasks</li>
+</ul>
+<div class="highlight-py"><div class="highlight"><pre><span></span><span class="n">fox</span><span class="o">.</span><span class="n">get_tasks</span><span class="p">()</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>get task using task filter</li>
+</ul>
+<div class="highlight-py"><div class="highlight"><pre><span></span><span class="n">task_filter</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;project_name&quot;</span><span class="p">:</span> <span class="s2">&quot;XXX&quot;</span><span class="p">,</span> <span class="s2">&quot;task_status&quot;</span><span class="p">:</span> <span class="s2">&quot;Start&quot;</span><span class="p">}</span>
+<span class="n">task_filter</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;project_name&quot;</span><span class="p">:</span> <span class="s2">&quot;XXX&quot;</span><span class="p">,</span> <span class="s2">&quot;task_status&quot;</span><span class="p">:</span> <span class="s2">&quot;System_Done&quot;</span><span class="p">}</span>
+<span class="n">fox</span><span class="o">.</span><span class="n">get_tasks</span><span class="p">(</span><span class="n">task_filter</span><span class="o">=</span><span class="n">task_filter</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>get all tasks of specific project</li>
+</ul>
+<div class="highlight-py"><div class="highlight"><pre><span></span><span class="n">fox</span><span class="o">.</span><span class="n">get_tasks</span><span class="p">(</span><span class="n">project_name</span><span class="o">=</span><span class="s2">&quot;XXX&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>get specific task</li>
+</ul>
+<div class="highlight-py"><div class="highlight"><pre><span></span><span class="n">fox</span><span class="o">.</span><span class="n">get_tasks</span><span class="p">(</span><span class="n">task_id</span><span class="o">=</span><span class="mi">11111</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>get specific task with frames info</li>
+</ul>
+<div class="highlight-py"><div class="highlight"><pre><span></span><span class="n">fox</span><span class="o">.</span><span class="n">get_tasks</span><span class="p">(</span><span class="n">task_id</span><span class="o">=</span><span class="mi">11111</span><span class="p">,</span> <span class="n">has_frames</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="http-api-manual">
+<span id="http-api-manual"></span><h2>HTTP API Manual<a class="headerlink" href="#http-api-manual" title="Permalink to this headline">¶</a></h2>
+<p>Generally, This is not necessary to see this manual, but if you like you can find the latest version HTTP API Manual at https://innerx.gitbooks.io/rayvision-render-api/content/, we only have a chinese version of manual currently.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Fox Render Farm / Renderbus cloud rendering Python API</a><ul>
+<li><a class="reference internal" href="#requirement">Requirement</a></li>
+<li><a class="reference internal" href="#submiting-step">Submiting Step</a></li>
+<li><a class="reference internal" href="#query-method">Query Method</a></li>
+<li><a class="reference internal" href="#http-api-manual">HTTP API Manual</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Welcome to Python API&#8217;s documentation!</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/README.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to Python API’s documentation!"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Python API  documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, rayvision.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+    </div>
+  </body>
+</html>
